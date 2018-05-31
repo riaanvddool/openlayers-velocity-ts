@@ -19,9 +19,8 @@ let velocity = new VelocityLayer({
   data: data, // see demo/*.json, or wind-js-server for example data service
 
   // OPTIONAL
-  //minVelocity: 0,          // used to align color scale
-  maxVelocity: 10,         // used to align color scale
-  maxVelocity: 10,
+  minVelocity: 0,          // used to align color scale
+  maxVelocity: 10          // used to align color scale
 });
 
 velocity.addToMap(map);
@@ -30,17 +29,6 @@ velocity.addToMap(map);
 ## Build new lib/openlayers-velocity.js file:
 ```bash
 npm run build
-```
-
-## Debug layer add issue:
-```javascript
-let velocity = new TestLayer({});
-
-velocity.addToMap(map);
-```
-## Browser console error:
-```
-TypeError: a.dg is not a function[Learn More]
 ```
 
 ## License
