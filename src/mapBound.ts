@@ -12,11 +12,13 @@ export default class MapBound {
     }
 
     get width () : number {
-        return (720 + this.east - this.west) % 360;
+        // return (720 + this.east - this.west) % 360;
+        return ((720 + this.east * 180 / Math.PI - this.west * 180 / Math.PI) % 360) * Math.PI / 180;
     }
 
     get height () : number {
-        return (360 + this.north - this.south) % 180;
+        // return (360 + this.north - this.south) % 180;
+        return ((360 + this.north * 180 / Math.PI - this.south * 180 / Math.PI) % 180) * Math.PI / 180;
     }
 
     

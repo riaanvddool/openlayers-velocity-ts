@@ -1,3 +1,25 @@
-#mapid {
-    height: 500px;
+#mapid  {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 500px;
+  height: 500px;
+}
+
+#velocity-canvas {
+  position: absolute;
+  top: 0px;
+  left: 550px;
+  width: 500px;
+  height: 500px;
+  background-color: #000000
+}
+
+.buttons {
+  position: absolute;
+  top: 510px;
+}
+
+.hidden {
+  display: none;
 }

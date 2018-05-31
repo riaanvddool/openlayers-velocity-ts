@@ -8,7 +8,7 @@
     "build": "webpack --display-modules",
     "watch": "webpack --progress --colors --watch"
   },
-  "author": "Riaan vdD <riaan@orbits.app>",
+  "author": "xorbits <xorbits@orbits.app>",
   "contributors": [
     "Dan Wild <danwild@y7mail.com>",
     "Cyrille Meichel <me@noopy.fr>",
