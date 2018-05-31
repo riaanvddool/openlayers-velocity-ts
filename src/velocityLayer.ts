@@ -17,6 +17,7 @@ export default class VelocityLayer {
   private _map: any = null;
   private _canvas: any = null;
   private _canvasExtent: any = null;
+  private _canvasSize: any = null;
   private _canvasLayer: any = null;
   private _windy: Windy = null;
   private _context: any = null;
@@ -41,9 +42,6 @@ export default class VelocityLayer {
     }, options || {});
 
     console.debug(this.options);
-    // for (var i in options) {
-    //   this.options[i] = options[i];
-    // }
 
   }
 
@@ -55,6 +53,9 @@ export default class VelocityLayer {
     this._canvas.setAttribute('height', size[1]);
     this._context = this._canvas.getContext('2d');
     this._canvasExtent = extent;
+    this._canvasSize = size;
+
+    this._restartWindy()
 
     return this._canvas;
   }
@@ -93,21 +94,26 @@ export default class VelocityLayer {
 
     if (this._windy) {
       this._windy.setData(data);
-      this._clearAndRestart();
+      if (this._canvasLayer) 
+        this._canvasLayer.changed()
     }
   }
 
   _initWindy() {
     console.debug('VelocityLayer._initWindy');
     this._canvas = this._canvas || document.createElement('canvas');
+
     // windy object, copy options
-    const options = (<any>Object).assign({ canvas: this._canvas }, this.options);
+    const options = (<any>Object).assign({}, this.options, {
+        canvas: this._canvas
+    });
     this._windy = new Windy(options);
 
-    this._map.getView().on('change:center', this._restartWindy.bind(this));
-    this._map.getView().on('change:resolution', this._restartWindy.bind(this));
-
     // this._initMouseHandler();
+  }
+
+  _canvasLayer_changed(){
+    this._canvasLayer.changed()
   }
 
   // _initMouseHandler() {
@@ -135,24 +141,16 @@ export default class VelocityLayer {
       return;
     }
 
-    var self = this;
-    if (this._displayTimeout) clearTimeout(this._displayTimeout);
+    if (this._displayTimeout) 
+      clearTimeout(this._displayTimeout);
+
     this._displayTimeout = setTimeout(() => {
       var mapSize = this._map.getSize();
-      // Canvas extent is different than map extent, so compute delta between 
-      // left-top of map and canvas extent.
-      var mapExtent :any = this._map.getView().calculateExtent(mapSize);
-      var canvasOrigin :any = this._map.getPixelFromCoordinate([this._canvasExtent[0], this._canvasExtent[3]]);
-      var mapOrigin :any = this._map.getPixelFromCoordinate([mapExtent[0], mapExtent[3]]);
-      var delta :any = [mapOrigin[0]-canvasOrigin[0], mapOrigin[1]-canvasOrigin[1]];
-      console.debug('mapExtent: ' + mapExtent);
-      console.debug('canvasExtent: ' + this._canvasExtent);
-      console.debug('canvasOrigin: ' + canvasOrigin);
-      console.debug('mapOrigin: ' + mapOrigin);
-      console.debug('Delta: ' + delta);
       console.debug('mapSize: ' + mapSize);
-
-      var extentLL = proj.transformExtent(this._canvasExtent, 'EPSG:3857', 'EPSG:4326');
+      console.debug('canvasSize: ' + this._canvasSize);
+      
+      var extent = this._map.getView().calculateExtent(this._canvasSize);
+      var extentLL = proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
       console.debug('extentLL' + extentLL);
       console.debug('--------------------------');
 
@@ -164,7 +162,7 @@ export default class VelocityLayer {
             extentLL[1], // miny (south)
             extentLL[0]  // minx (west)
           ),
-          new CanvasBound(delta[0], delta[1], delta[0] + mapSize[0], delta[1] + mapSize[1])
+          new CanvasBound(0, 0, this._canvasSize[0], this._canvasSize[1])
         )
       );
     }, 150); // showing velocity delayed while layer is being added to the map
@@ -177,20 +175,6 @@ export default class VelocityLayer {
     }
     this._startWindy();
   }
-
-
-  _clearAndRestart() {
-    console.debug('VelocityLayer._clearAndRestart');
-
-    if (this._context) this._context.clearRect(0, 0, 3000, 3000);
-    if (this._windy) this._startWindy();
-  }
-
-  // _clearWind() {
-  //   console.debug('VelocityLayer._clearWind');
-  //   if (this._windy) this._windy.stop();
-  //   if (this._context) this._context.clearRect(0, 0, 3000, 3000);
-  // }
 
   _destroyWind() {
     console.debug('VelocityLayer._destroyWind');

@@ -139,7 +139,9 @@ let velocity = new VelocityLayer({
   // minVelocity: 0,          // used to align color scale
   // maxVelocity: 10,         // used to align color scale
   velocityScale: 0.01,    // modifier for particle animations, arbitrarily defaults to 0.005
-  colorScale: []           // define your own array of hex/rgb colors
+  particleMultiplier: 1/100,
+  particleAge: 64,
+  lineWidth: 1
 });
 
 function removeWind() {
@@ -152,7 +154,7 @@ function addWind() {
   // TODO: Figure out how to keep animation going without updating layer
   setInterval(function() {
        velocity._canvasLayer.changed();
-  }, 30); 
+  }, 50); 
 }
 
 
