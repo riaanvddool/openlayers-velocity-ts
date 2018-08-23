@@ -20,17 +20,19 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "css-loader": "^0.28.8",
+    "css-loader": "^1.0.0",
     "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.1",
-    "ts-loader": "^3.1.1",
-    "typescript": "^2.6.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.22.1",
+    "ts-loader": "^4.5.0",
+    "typescript": "^3.0.1",
     "typings-for-css-modules-loader": "^1.7.0",
-    "webpack": "^3.10.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "ol": "^4.6.5"
+    "@types/ol": "^4.6.2",
+    "ol": "^5.1.3"
   }
 }

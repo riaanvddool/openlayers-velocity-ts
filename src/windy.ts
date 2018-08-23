@@ -249,7 +249,9 @@ export default class Windy {
 
   stop() {
     this.particules.splice(0, this.particules.length);
-    this.animationBucket.clear();
+    if (this.animationBucket) {
+        this.animationBucket.clear();
+    }
     if (this.animationLoop) {
       clearTimeout(this.animationLoop);
       this.animationLoop = null;
