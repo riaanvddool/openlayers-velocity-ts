@@ -25,7 +25,7 @@ export default class VelocityLayer {
   private _mouseControl: any  = null;
 
   constructor(options: any) {
-    console.debug('VelocityLayer.constructor');
+    // console.debug('VelocityLayer.constructor');
 
     this.options = (<any>Object).assign({
       displayValues: true,
@@ -46,8 +46,8 @@ export default class VelocityLayer {
   }
 
   _canvasFunction(extent: any, resolution: any, pixelRatio: any, size: any, projection: any) {
-    console.debug('VelocityLayer.canvasFunction');
-    console.debug('extent: ' + extent + ' | resolution: ' + resolution + ' | pixelRatio: ' + pixelRatio + ' | size: ' + size );
+    // console.debug('VelocityLayer.canvasFunction');
+    // console.debug('extent: ' + extent + ' | resolution: ' + resolution + ' | pixelRatio: ' + pixelRatio + ' | size: ' + size );
     this._canvas = this._canvas || document.createElement('canvas');
     this._canvas.setAttribute('width', size[0]);
     this._canvas.setAttribute('height', size[1]);
@@ -71,7 +71,7 @@ export default class VelocityLayer {
   }
 
   addToMap(map: any, canvas: any = null) {
-    console.debug('VelocityLayer.addToMap');
+    // console.debug('VelocityLayer.addToMap');
     this._canvas = canvas || this._canvas || document.createElement('canvas');
     this._map = map;
     this._map.addLayer(this.getMapLayer());
@@ -79,7 +79,7 @@ export default class VelocityLayer {
   }
 
   removeFromMap() {
-    console.debug('VelocityLayer.removeFromMap');
+    // console.debug('VelocityLayer.removeFromMap');
     if (!this._map) {
       console.log('VelocityLayer.removeFromMap: No map!');
       return;
@@ -89,7 +89,7 @@ export default class VelocityLayer {
   }
 
   setData(data: any) {
-    console.debug('VelocityLayer.setData');
+    // console.debug('VelocityLayer.setData');
     this.options.data = data;
 
     if (this._windy) {
@@ -100,7 +100,7 @@ export default class VelocityLayer {
   }
 
   _initWindy() {
-    console.debug('VelocityLayer._initWindy');
+    // console.debug('VelocityLayer._initWindy');
     this._canvas = this._canvas || document.createElement('canvas');
 
     // windy object, copy options
@@ -137,7 +137,7 @@ export default class VelocityLayer {
     }
 
     if (!this.options.data) {
-      console.debug('VelocityLayer._startWindy: no data!');
+      // console.debug('VelocityLayer._startWindy: no data!');
       return;
     }
 
@@ -177,7 +177,7 @@ export default class VelocityLayer {
   }
 
   _destroyWind() {
-    console.debug('VelocityLayer._destroyWind');
+    // console.debug('VelocityLayer._destroyWind');
     if (this._displayTimeout)
       clearTimeout(this._displayTimeout);
     if (this._windy)
