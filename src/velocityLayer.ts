@@ -2,14 +2,14 @@ import Windy from './windy';
 import CanvasBound from './canvasBound'
 import MapBound from './mapBound';
 import Layer from './layer';
-import olImageLayer from 'ol/layer/image';
-import olTileLayer from 'ol/layer/tile';
-import olImageCanvasSource from 'ol/source/imagecanvas';
-import olStamenSource from 'ol/source/stamen';
-declare function require(name:string):any;
-const proj = (<any>require('ol/proj')).default;
+import ImageLayer from 'ol/layer/Image';
+import TileLayer from 'ol/layer/Tile';
+import ImageCanvasSource from 'ol/source/ImageCanvas';
+import Stamen from 'ol/source/Stamen';
+import { transformExtent } from 'ol/proj';
+// declare function require(name:string):any;
+// const proj = (<any>require('ol/proj')).default;
 // Fix: https://github.com/openlayers/openlayers/issues/8037
-//import { transformExtent } from 'ol/proj';
 
 export default class VelocityLayer {
 
@@ -61,8 +61,8 @@ export default class VelocityLayer {
   }
 
   getMapLayer() {
-    this._canvasLayer = this._canvasLayer || new olImageLayer({
-      source: new olImageCanvasSource({
+    this._canvasLayer = this._canvasLayer || new ImageLayer({
+      source: new ImageCanvasSource({
         canvasFunction: this._canvasFunction.bind(this),
         projection: 'EPSG:3857'
       })
@@ -94,7 +94,7 @@ export default class VelocityLayer {
 
     if (this._windy) {
       this._windy.setData(data);
-      if (this._canvasLayer) 
+      if (this._canvasLayer)
         this._canvasLayer.changed()
     }
   }
@@ -141,16 +141,16 @@ export default class VelocityLayer {
       return;
     }
 
-    if (this._displayTimeout) 
+    if (this._displayTimeout)
       clearTimeout(this._displayTimeout);
 
     this._displayTimeout = setTimeout(() => {
       var mapSize = this._map.getSize();
       console.debug('mapSize: ' + mapSize);
       console.debug('canvasSize: ' + this._canvasSize);
-      
+
       var extent = this._map.getView().calculateExtent(this._canvasSize);
-      var extentLL = proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+      var extentLL = transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
       console.debug('extentLL' + extentLL);
       console.debug('--------------------------');
 
@@ -192,8 +192,3 @@ export default class VelocityLayer {
   }
 
 }
-
-
-
-
-
