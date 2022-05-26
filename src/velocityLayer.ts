@@ -21,7 +21,7 @@ export default class VelocityLayer {
   private _canvasLayer: any = null;
   private _windy: Windy = null;
   private _context: any = null;
-  private _displayTimeout: number = 0;
+  private _displayTimeout: any = 0;
   private _mouseControl: any  = null;
 
   constructor(options: any) {
